@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 public final class LoginPageTest extends TestBase {
 
 	@Test
-	public void loginTest() {
-
+	public void validateLoginByUi() {
+		loginPage.doLogin();
 	}
 
 }

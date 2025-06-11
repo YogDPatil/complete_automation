@@ -10,11 +10,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.beust.jcommander.Parameter;
+import com.ui.pages.LoginPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public abstract class TestBase {
 	private WebDriver driver;
+	protected LoginPage loginPage;
 
 	@Parameters("browser")
 	@BeforeMethod(alwaysRun = true)
@@ -30,6 +32,7 @@ public abstract class TestBase {
 		}
 		driver.manage().window().maximize();
 		driver.get("http://phoenix.techwithjatin.com/sign-in");
+		loginPage = new LoginPage(driver);
 	}
 
 	@AfterMethod
