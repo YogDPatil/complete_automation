@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import com.utils.BrowserUtils;
 
 public final class LoginPage extends BrowserUtils {
+	
+	private WebDriver driver;
 
 	private static final By USERNAME_FIELD_LOCATOR = By.id("username");
 	private static final By PASSWORD_FIELD_LOCATOR = By.id("password");
@@ -13,12 +15,14 @@ public final class LoginPage extends BrowserUtils {
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
+		this.driver = driver;
 	}
 
-	public void doLogin() {
+	public DashboardPage doLogin() {
 		enterText(USERNAME_FIELD_LOCATOR, "iamfd");
 		enterText(PASSWORD_FIELD_LOCATOR, "password");
 		clickOn(SIGN_IN_BUTTON_LOCATOR);
+		return new DashboardPage(driver);
 	}
 
 }

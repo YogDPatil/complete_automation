@@ -31,4 +31,9 @@ public abstract class BrowserUtils {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
 
+	public String getCurrentPageUrl(String endpoint) {
+		wait.until(ExpectedConditions.urlContains(endpoint));
+		return driver.getCurrentUrl();
+	}
+
 }
