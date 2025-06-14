@@ -42,7 +42,7 @@ public abstract class TestBase {
 		loginPage = new LoginPage(driver);
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void tearDown() {
 		if (driver != null) {
 			try {
