@@ -45,17 +45,18 @@ public abstract class BrowserUtils {
 		return driver.getCurrentUrl();
 	}
 
-	public static void takeScreenshot(String testName) {
+	public static String takeScreenshot(String testName) {
 		String formattedDate = (new SimpleDateFormat("yyyy-MMM-dd hh:mm")).format(new Date());
 		File srcFile = ((TakesScreenshot) staticWebDriver).getScreenshotAs(OutputType.FILE);
 		String dirPath = System.getProperty("user.dir") + "/screenshots/";
 		File dir = new File(dirPath);
-		File destFile = new File(dirPath + testName + "_" + formattedDate + ".png");
+		String destFilePath = dirPath + testName + "_" + formattedDate + ".png";
+		File destFile = new File(destFilePath);
 
 		try {
 			if (!dir.exists()) {
 				FileUtils.forceMkdir(dir);
-			}else {
+			} else {
 				FileUtils.forceDelete(dir);
 				FileUtils.forceMkdir(dir);
 			}
@@ -63,7 +64,7 @@ public abstract class BrowserUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		return destFilePath;
 	}
 
 }
