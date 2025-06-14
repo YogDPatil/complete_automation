@@ -25,6 +25,7 @@ public abstract class TestBase {
 	@BeforeMethod(alwaysRun = true)
 	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
 		environment = Env.valueOf(env.toUpperCase());
+		
 		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
@@ -34,6 +35,7 @@ public abstract class TestBase {
 		} else {
 			System.out.println(browser + " is not compatible");
 		}
+		
 		driver.manage().window().maximize();
 		driver.get(TestUtils.getValueFromPropertiesFile(environment, "BASE_URL"));
 		loginPage = new LoginPage(driver);

@@ -9,7 +9,6 @@ public final class LoginPageTest extends TestBase {
 	public void validateLoginByUi() {
 		Assert.assertEquals(loginPage.doLogin(environment).getDashboardPageUrl(),
 				"http://phoenix.techwithjatin.com/frontdesk/dashboard", "User is not redirected to dashboard page.");
-		// connected to jenkins.
 	}
 
 }
