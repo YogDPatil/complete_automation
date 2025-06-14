@@ -17,10 +17,10 @@ import com.constants.Env;
 
 public class TestUtils {
 
-	static WebDriver driver;
+
 
 	public TestUtils(WebDriver driver) {
-		this.driver = driver;
+//		this.driver = driver;
 	}
 
 	public static String getValueFromPropertiesFile(Env env, String keyValue) {
@@ -38,22 +38,6 @@ public class TestUtils {
 		return null;
 	}
 
-	public static void takeScreenshot() {
-		String formattedDate = (new SimpleDateFormat("yyyy-MMM-dd hh:mm")).format(new Date());
-		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		String dirPath = System.getProperty("user.dir") + "/screenshots/";
-		File file = new File(dirPath);
-		File destFile;
-		if (file.exists()) {
-			destFile = new File(dirPath + formattedDate + ".png");
-		}else {
-			try {
-				FileUtils.forceMkdir(file);
-				destFile = new File(dirPath + formattedDate + ".png");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
 
 }

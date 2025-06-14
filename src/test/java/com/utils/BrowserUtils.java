@@ -23,6 +23,7 @@ public abstract class BrowserUtils {
 
 	public BrowserUtils(WebDriver driver) {
 		this.driver = driver;
+		staticWebDriver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 	}
 
@@ -53,6 +54,9 @@ public abstract class BrowserUtils {
 
 		try {
 			if (!dir.exists()) {
+				FileUtils.forceMkdir(dir);
+			}else {
+				FileUtils.forceDelete(dir);
 				FileUtils.forceMkdir(dir);
 			}
 			FileUtils.copyFile(srcFile, destFile);
