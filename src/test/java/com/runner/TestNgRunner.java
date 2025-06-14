@@ -26,8 +26,10 @@ public class TestNgRunner {
 
 		XmlTest xmlTest = new XmlTest(xmlSuit);
 		xmlTest.setName(componant + " " + testType + " automation Test");
-		xmlTest.addParameter("browser", "firefox");
-		xmlTest.addParameter("env", "qa");
+		xmlTest.addParameter("browser", browser);
+		xmlTest.addParameter("env", env);
+		xmlTest.addIncludedGroup(testType);
+		
 
 		XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");
 		List<XmlPackage> packageList = new ArrayList<>();
@@ -43,7 +45,7 @@ public class TestNgRunner {
 		suiteList.add(xmlSuit);
 
 		testNg.setXmlSuites(suiteList);
-		testNg.setUseDefaultListeners(true);
+		testNg.setVerbose(3); // To get detailed logs
 		testNg.run();
 
 	}
