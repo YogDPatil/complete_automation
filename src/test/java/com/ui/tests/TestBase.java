@@ -10,6 +10,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.beust.jcommander.Parameter;
+import com.constants.Env;
 import com.ui.pages.LoginPage;
 import com.utils.TestUtils;
 
@@ -18,10 +19,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public abstract class TestBase {
 	private WebDriver driver;
 	protected LoginPage loginPage;
+	protected Env environment;
 
-	@Parameters("browser")
+	@Parameters({ "browser", "env" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("chrome") String browser) {
+	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
+		environment = Env.valueOf(env.toUpperCase());
 		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
@@ -32,7 +35,7 @@ public abstract class TestBase {
 			System.out.println(browser + " is not compatible");
 		}
 		driver.manage().window().maximize();
-		driver.get(TestUtils.getValueFromPropertiesFile("BASE_URL"));
+		driver.get(TestUtils.getValueFromPropertiesFile(environment, "BASE_URL"));
 		loginPage = new LoginPage(driver);
 	}
 
