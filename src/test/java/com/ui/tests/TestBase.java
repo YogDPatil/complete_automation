@@ -11,6 +11,7 @@ import org.testng.annotations.Parameters;
 
 import com.beust.jcommander.Parameter;
 import com.ui.pages.LoginPage;
+import com.utils.TestUtils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -31,7 +32,7 @@ public abstract class TestBase {
 			System.out.println(browser + " is not compatible");
 		}
 		driver.manage().window().maximize();
-		driver.get("http://phoenix.techwithjatin.com/sign-in");
+		driver.get(TestUtils.getValueFromPropertiesFile("BASE_URL"));
 		loginPage = new LoginPage(driver);
 	}
 

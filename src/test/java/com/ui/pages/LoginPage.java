@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.utils.BrowserUtils;
+import com.utils.TestUtils;
 
 public final class LoginPage extends BrowserUtils {
 	
@@ -19,8 +20,8 @@ public final class LoginPage extends BrowserUtils {
 	}
 
 	public DashboardPage doLogin() {
-		enterText(USERNAME_FIELD_LOCATOR, "iamfd");
-		enterText(PASSWORD_FIELD_LOCATOR, "password");
+		enterText(USERNAME_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile("USER_NAME"));
+		enterText(PASSWORD_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile("PASSWORD"));
 		clickOn(SIGN_IN_BUTTON_LOCATOR);
 		return new DashboardPage(driver);
 	}
