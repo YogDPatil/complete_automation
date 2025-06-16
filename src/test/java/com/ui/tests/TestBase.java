@@ -25,7 +25,7 @@ public abstract class TestBase {
 
 	@Parameters({ "browser", "env" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env) {
+	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
 		environment = Env.valueOf(env.toUpperCase());
 
 		if (browser.equalsIgnoreCase("chrome")) {
@@ -33,7 +33,9 @@ public abstract class TestBase {
 			driver = new ChromeDriver();
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
+			FirefoxOptions options = new FirefoxOptions();
+	        options.addArguments("--headless");
+			driver = new FirefoxDriver(options);
 		} else {
 			System.out.println(browser + " is not compatible");
 		}
