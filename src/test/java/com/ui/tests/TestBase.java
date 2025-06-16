@@ -1,8 +1,9 @@
 package com.ui.tests;
 
-import org.testng.annotations.AfterMethod; 
+import org.testng.annotations.AfterMethod;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
@@ -27,14 +28,20 @@ public abstract class TestBase {
 	@BeforeMethod(alwaysRun = true)
 	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
 		environment = Env.valueOf(env.toUpperCase());
-
+		boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			ChromeOptions opt = new ChromeOptions();
+			if (headless) {
+				opt.addArguments("--headless");
+			}
+			driver = new ChromeDriver(opt);
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
 			FirefoxOptions options = new FirefoxOptions();
-	        options.addArguments("--headless");
+			if (headless) {
+				options.addArguments("--headless");
+			}
 			driver = new FirefoxDriver(options);
 		} else {
 			System.out.println(browser + " is not compatible");

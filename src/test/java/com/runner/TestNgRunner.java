@@ -46,7 +46,7 @@ public class TestNgRunner {
 			suiteList.add(xmlSuit);
 
 			testNg.setXmlSuites(suiteList);
-			testNg.setVerbose(3); // To get detailed logs
+			testNg.setVerbose(3); 
 			testNg.run();
 		} else
 			System.out.println("Configuration is not correct");
