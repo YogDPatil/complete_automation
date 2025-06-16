@@ -14,40 +14,73 @@ public class TestNgRunner {
 
 	public static void main(String[] args) {
 
-		browser = args[0];
-		env = args[1];
-		componant = args[2];
-		testType = args[3];
+		if (verifyBrowser(args[0]) && verifyEnvironment(args[1]) && verifyComponant(args[2])
+				&& verifyTestType(args[3])) {
+			browser = args[0];
+			env = args[1];
+			componant = args[2];
+			testType = args[3];
 
-		TestNG testNg = new TestNG();
+			TestNG testNg = new TestNG();
 
-		XmlSuite xmlSuit = new XmlSuite();
-		xmlSuit.setName("My " + env + " phoenix app " + componant + "suit");
+			XmlSuite xmlSuit = new XmlSuite();
+			xmlSuit.setName("My " + env + " phoenix app " + componant + " suit");
 
-		XmlTest xmlTest = new XmlTest(xmlSuit);
-		xmlTest.setName(componant + " " + testType + " automation Test");
-		xmlTest.addParameter("browser", browser);
-		xmlTest.addParameter("env", env);
-		xmlTest.addIncludedGroup(testType);
-		
+			XmlTest xmlTest = new XmlTest(xmlSuit);
+			xmlTest.setName(componant + " " + testType + " automation Test");
+			xmlTest.addParameter("browser", browser);
+			xmlTest.addParameter("env", env);
+			xmlTest.addIncludedGroup(testType);
 
-		XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");
-		List<XmlPackage> packageList = new ArrayList<>();
+			XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");
+			List<XmlPackage> packageList = new ArrayList<>();
 
-		packageList.add(xmlPackage);
-		xmlTest.setPackages(packageList);
+			packageList.add(xmlPackage);
+			xmlTest.setPackages(packageList);
 
-		List<XmlTest> testList = new ArrayList<>();
-		testList.add(xmlTest);
-		xmlSuit.setTests(testList);
+			List<XmlTest> testList = new ArrayList<>();
+			testList.add(xmlTest);
+			xmlSuit.setTests(testList);
 
-		List<XmlSuite> suiteList = new ArrayList<>();
-		suiteList.add(xmlSuit);
+			List<XmlSuite> suiteList = new ArrayList<>();
+			suiteList.add(xmlSuit);
 
-		testNg.setXmlSuites(suiteList);
-		testNg.setVerbose(3); // To get detailed logs
-		testNg.run();
+			testNg.setXmlSuites(suiteList);
+			testNg.setVerbose(3); // To get detailed logs
+			testNg.run();
+		} else
+			System.out.println("Configuration is not correct");
 
+	}
+
+	public static boolean verifyBrowser(String browser) {
+		if (browser.equalsIgnoreCase("chrome") || browser.equalsIgnoreCase("firefox")
+				|| browser.equalsIgnoreCase("edge")) {
+			return true;
+		} else
+			return false;
+	}
+
+	public static boolean verifyEnvironment(String env) {
+		if (env.equalsIgnoreCase("qa") || env.equalsIgnoreCase("dev") || env.equalsIgnoreCase("uat")) {
+			return true;
+		} else
+			return false;
+	}
+
+	public static boolean verifyComponant(String component) {
+		if (component.equalsIgnoreCase("ui") || component.equalsIgnoreCase("mobile")
+				|| component.equalsIgnoreCase("api")) {
+			return true;
+		} else
+			return false;
+	}
+
+	public static boolean verifyTestType(String type) {
+		if (type.equalsIgnoreCase("sanity") || type.equalsIgnoreCase("smoke") || type.equalsIgnoreCase("regression")) {
+			return true;
+		} else
+			return false;
 	}
 
 }
