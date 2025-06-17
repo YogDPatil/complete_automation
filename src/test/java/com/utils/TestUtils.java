@@ -14,10 +14,9 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 import com.constants.Env;
+import com.github.javafaker.Faker;
 
 public class TestUtils {
-
-
 
 	public TestUtils(WebDriver driver) {
 //		this.driver = driver;
@@ -38,6 +37,11 @@ public class TestUtils {
 		return null;
 	}
 
-	
+	public void getFakeData() {
+		Faker faker = new Faker();
+		String fName = faker.name().firstName();
+		String lName = faker.name().lastName();
+		faker.numerify("###############");
+	}
 
 }
