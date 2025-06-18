@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -37,11 +39,23 @@ public class TestUtils {
 		return null;
 	}
 
-	public void getFakeData() {
+	public static Map<String, String> getFakeData() {
 		Faker faker = new Faker();
-		String fName = faker.name().firstName();
-		String lName = faker.name().lastName();
-		faker.numerify("###############");
+
+		Map<String, String> createJobDetails = new HashMap<>();
+		createJobDetails.put("FirstName", faker.name().firstName());
+		createJobDetails.put("LastName", faker.name().lastName());
+		createJobDetails.put("imei", faker.numerify("###############"));
+		createJobDetails.put("email", faker.internet().emailAddress());
+		createJobDetails.put("flatNumber", faker.address().buildingNumber());
+		createJobDetails.put("streetName", faker.address().streetName());
+		createJobDetails.put("apptName", "Abc");
+		createJobDetails.put("landMark", "Xyz");
+		createJobDetails.put("Area", "Goga");
+		createJobDetails.put("State", "Maharashtra");
+		createJobDetails.put("landMark", faker.address().zipCode());
+		return createJobDetails;
+
 	}
 
 }
