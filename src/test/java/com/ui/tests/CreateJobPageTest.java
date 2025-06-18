@@ -4,9 +4,10 @@ import org.testng.annotations.Test;
 
 public final class CreateJobPageTest extends TestBase {
 
-	@Test
+	@Test(description = "Validate create job from ui", groups = { "smoke", "regression" })
 	public void validateCreateJobByUi() {
-		loginPage.doLogin(environment).goToCreateJobPage().enterJobDetails();;
+		loginPage.doLogin(environment).goToCreateJobPage().enterJobDetails();
+		;
 	}
 
 }
