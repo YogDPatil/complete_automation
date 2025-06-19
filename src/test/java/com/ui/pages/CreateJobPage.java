@@ -34,15 +34,20 @@ public final class CreateJobPage extends BrowserUtils {
 	private static final By STREET_NAME_FIELD_LOCATOR = By.cssSelector("input[placeholder='Street Name.']");
 	private static final By AREA_FIELD_LOCATOR = By.cssSelector("input[placeholder='Area']");
 	private static final By STATE_FIELD_LOCATOR = By.cssSelector("input[placeholder='Select State']");
+	private static final By STATE_OPTIONS_LOCATOR = By.xpath("//div[@id='mat-autocomplete-1']/mat-option");
 	private static final By PINCODE_FIELD_LOCATOR = By.cssSelector("input[placeholder='Pincode']");
 	private static final By SUBMIT_BUTTON_LOCATOR = By.cssSelector("button[type='submit']");
+	private static final By JOB_CREATED_TOAST_MASSAGE_LOCATOR = By
+			.xpath("//span[@class='mat-simple-snack-bar-content']");
+
+	
 
 	public CreateJobPage(WebDriver driver) {
 		super(driver);
 	}
 
-	public void enterJobDetails(String oem, String productName, String modelName, String mmddyyyy,
-			String warrantyStatus) {
+	public String enterJobDetails(String oem, String productName, String modelName, String mmddyyyy,
+			String warrantyStatus, String state) {
 		clickOn(OEM_DROPDOWN_LOCATOR);
 		selectOptionFromList(OEM_OPTIONS_LOCATOR, oem);
 		clickOn(PRODUCT_NAME_DROPDOWN_LOCATOR);
@@ -65,9 +70,11 @@ public final class CreateJobPage extends BrowserUtils {
 		enterText(LANDMARK_FIELD_LOCATOR, TestUtils.getFakeData().get("landmark"));
 		enterText(STREET_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("streetName"));
 		enterText(AREA_FIELD_LOCATOR, TestUtils.getFakeData().get("area"));
-		enterText(STATE_FIELD_LOCATOR, TestUtils.getFakeData().get("state"));
+		clickOn(STATE_FIELD_LOCATOR);
+		selectOptionFromList(STATE_OPTIONS_LOCATOR, state);
 		enterText(PINCODE_FIELD_LOCATOR, TestUtils.getFakeData().get("pincode"));
 		clickOn(SUBMIT_BUTTON_LOCATOR);
+		return (getElementText(JOB_CREATED_TOAST_MASSAGE_LOCATOR).split(" "))[0];
 	}
 
 }

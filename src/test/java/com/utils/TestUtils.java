@@ -54,7 +54,7 @@ public class TestUtils {
 		createJobDetails.put("streetName", faker.address().streetName());
 		createJobDetails.put("area", "Goga");
 		createJobDetails.put("state", "Maharashtra");
-		createJobDetails.put("pincode", faker.address().zipCode());
+		createJobDetails.put("pincode", faker.numerify("######"));
 		return createJobDetails;
 
 	}

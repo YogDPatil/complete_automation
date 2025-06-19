@@ -59,6 +59,10 @@ public abstract class BrowserUtils {
 			}
 		}
 	}
+	
+	public String getElementText(By locator) {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+	}
 
 	public String getCurrentPageUrl(String endpoint) {
 		wait.until(ExpectedConditions.urlContains(endpoint));

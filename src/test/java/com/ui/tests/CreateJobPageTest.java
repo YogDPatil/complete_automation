@@ -1,5 +1,6 @@
 package com.ui.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -7,9 +8,10 @@ import org.testng.annotations.Test;
 public final class CreateJobPageTest extends TestBase {
 
 	@Test(description = "Validate create job from ui", groups = { "smoke", "regression" })
-	public void validateCreateJobByUi() {
-		loginPage.doLogin(environment).goToCreateJobPage().enterJobDetails("apple", "iphone", "iphone 11", "3/23/2025",
-				"In Warrenty");
+	public void validateCreateJobByUi() throws Exception {
+		Assert.assertTrue(loginPage.doLogin(environment).goToCreateJobPage()
+				.enterJobDetails("apple", "iphone", "iphone 11", "3/23/2025", "In Warrenty", "maharashtra")
+				.contains("JOB_"), "Job creation failed: No valid job ID returned");
 	}
 
 }
