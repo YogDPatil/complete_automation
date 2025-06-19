@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -33,11 +34,30 @@ public abstract class BrowserUtils {
 	}
 
 	public void clickOn(By locator) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
 	}
 
 	public WebElement findWebElement(By locator) {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
+
+	public List<WebElement> findWebElements(By locator) {
+		return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+	}
+
+	public void selectOptionFromList(By locator, String option) {
+		List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		for (WebElement ele : elements) {
+			if (ele.getText().equalsIgnoreCase(option)) {
+				ele.click();
+				break;
+			}
+		}
 	}
 
 	public String getCurrentPageUrl(String endpoint) {

@@ -9,6 +9,7 @@ import com.utils.TestUtils;
 public final class CreateJobPage extends BrowserUtils {
 
 	private static final By OEM_DROPDOWN_LOCATOR = By.xpath("//mat-select[@placeholder='Select OEM']");
+	private static final By OEM_OPTIONS_LOCATOR = By.cssSelector("mat-option[role='option']");
 	private static final By PRODUCT_NAME_DROPDOWN_LOCATOR = By
 			.xpath("//mat-select[@placeholder='Select Product name']");
 	private static final By MODEL_NAME_DROPDOWN_LOCATOR = By.xpath("//mat-select[@placeholder='Select Model name']");
@@ -37,6 +38,9 @@ public final class CreateJobPage extends BrowserUtils {
 	}
 
 	public void enterJobDetails() {
+//		clickOn(OEM_DROPDOWN_LOCATOR);
+		findWebElement(OEM_DROPDOWN_LOCATOR).click();
+		selectOptionFromList(OEM_OPTIONS_LOCATOR, "apple");
 		enterText(IMEI_FIELD_LOCATOR, TestUtils.getFakeData().get("imei"));
 	}
 
