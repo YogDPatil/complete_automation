@@ -43,17 +43,18 @@ public class TestUtils {
 		Faker faker = new Faker();
 
 		Map<String, String> createJobDetails = new HashMap<>();
-		createJobDetails.put("FirstName", faker.name().firstName());
-		createJobDetails.put("LastName", faker.name().lastName());
+		createJobDetails.put("fName", faker.name().firstName());
+		createJobDetails.put("lName", faker.name().lastName());
+		createJobDetails.put("number", faker.numerify("9#########"));
 		createJobDetails.put("imei", faker.numerify("###############"));
 		createJobDetails.put("email", faker.internet().emailAddress());
 		createJobDetails.put("flatNumber", faker.address().buildingNumber());
-		createJobDetails.put("streetName", faker.address().streetName());
 		createJobDetails.put("apptName", "Abc");
-		createJobDetails.put("landMark", "Xyz");
-		createJobDetails.put("Area", "Goga");
-		createJobDetails.put("State", "Maharashtra");
-		createJobDetails.put("landMark", faker.address().zipCode());
+		createJobDetails.put("landmark", "Xyz");
+		createJobDetails.put("streetName", faker.address().streetName());
+		createJobDetails.put("area", "Goga");
+		createJobDetails.put("state", "Maharashtra");
+		createJobDetails.put("pincode", faker.address().zipCode());
 		return createJobDetails;
 
 	}
