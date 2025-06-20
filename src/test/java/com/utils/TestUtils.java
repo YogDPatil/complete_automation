@@ -15,6 +15,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import com.constants.ConfigConst;
 import com.constants.Env;
 import com.github.javafaker.Faker;
 
@@ -24,7 +25,7 @@ public class TestUtils {
 //		this.driver = driver;
 	}
 
-	public static String getValueFromPropertiesFile(Env env, String keyValue) {
+	public static String getValueFromPropertiesFile(Env env, ConfigConst keyValue) {
 		FileInputStream fis;
 		Properties properties;
 		try {
@@ -32,7 +33,7 @@ public class TestUtils {
 					+ String.valueOf(env).toLowerCase() + "_config.properties"));
 			properties = new Properties();
 			properties.load(fis);
-			return properties.getProperty(keyValue);
+			return properties.getProperty(String.valueOf(keyValue));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

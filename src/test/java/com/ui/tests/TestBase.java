@@ -13,6 +13,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.beust.jcommander.Parameter;
+import com.constants.ConfigConst;
 import com.constants.Env;
 import com.ui.pages.LoginPage;
 import com.utils.TestUtils;
@@ -48,7 +49,7 @@ public abstract class TestBase {
 		}
 
 		driver.manage().window().maximize();
-		driver.get(TestUtils.getValueFromPropertiesFile(environment, "BASE_URL"));
+		driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
 		loginPage = new LoginPage(driver);
 	}
 
