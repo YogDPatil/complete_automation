@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -59,7 +60,17 @@ public abstract class BrowserUtils {
 			}
 		}
 	}
-	
+
+	public WebElement getRequredELementFromListOfElements(By locator) {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
+
+	public WebElement getRandomELementFromListOfElements(By locator) {
+		List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		Random rand = new Random();
+		return elements.get(rand.nextInt(elements.size()));
+	}
+
 	public String getElementText(By locator) {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
 	}

@@ -27,7 +27,7 @@ public abstract class TestBase {
 
 	@Parameters({ "browser", "env" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
+	public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env) {
 		environment = Env.valueOf(env.toUpperCase());
 		boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 		if (browser.equalsIgnoreCase("chrome")) {

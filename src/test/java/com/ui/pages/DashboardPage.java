@@ -9,7 +9,7 @@ public final class DashboardPage extends BrowserUtils {
 
 	private static final By CREATE_JOB_PAGE_LINK_LOCATOT = By
 			.xpath("//span[contains(text(),'Create Job')]/ancestor::a");
-	private static final By ASSIGN_JOB_PAGE_LINK_LOCATOT = By.xpath("//a[contains(@href, '/job-assignment')]");
+	private static final By ASSIGN_JOB_PAGE_LINK_LOCATOR = By.xpath("//a[contains(@href, '/job-assignment')]");
 
 	private WebDriver driver;
 
@@ -28,7 +28,7 @@ public final class DashboardPage extends BrowserUtils {
 	}
 
 	public AssignJobPage goToAssignJobPage() {
-		clickOn(ASSIGN_JOB_PAGE_LINK_LOCATOT);
+		clickOn(ASSIGN_JOB_PAGE_LINK_LOCATOR);
 		return new AssignJobPage(driver);
 	}
 
