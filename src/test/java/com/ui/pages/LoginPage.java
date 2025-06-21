@@ -21,8 +21,8 @@ public final class LoginPage extends BrowserUtils {
 		this.driver = driver;
 	}
 
-	public DashboardPage doLogin(Env env) {
-		enterText(USERNAME_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile(env, ConfigConst.USER_NAME));
+	public DashboardPage doLogin(Env env, ConfigConst user) {
+		enterText(USERNAME_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile(env, user));
 		enterText(PASSWORD_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile(env, ConfigConst.PASSWORD));
 		clickOn(SIGN_IN_BUTTON_LOCATOR);
 		return new DashboardPage(driver);

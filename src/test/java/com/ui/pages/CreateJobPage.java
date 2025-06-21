@@ -46,7 +46,7 @@ public final class CreateJobPage extends BrowserUtils {
 		super(driver);
 	}
 
-	public String enterJobDetails(String oem, String productName, String modelName, String mmddyyyy,
+	public String enterJobDetailsAndCreateJob(String oem, String productName, String modelName, String mmddyyyy,
 			String warrantyStatus, String state) {
 		clickOn(OEM_DROPDOWN_LOCATOR);
 		selectOptionFromList(OEM_OPTIONS_LOCATOR, oem);
