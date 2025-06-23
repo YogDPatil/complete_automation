@@ -6,6 +6,8 @@ import java.util.Map.Entry;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
+import com.utils.ApiUtils;
+
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -18,7 +20,7 @@ import io.restassured.specification.RequestSpecification;
 public class LoginApiReqStepDef {
 	private RequestSpecification repSpec;
 	private Response response;
-	private static String token;
+	public static String token;
 
 	@Given("The base url of app {string}")
 	public void the_base_url_of_app(String baseUrl) {
@@ -38,8 +40,8 @@ public class LoginApiReqStepDef {
 		repSpec.body("{\"username\":\"" + username + "\",\"" + password + "\":\"password\"}");
 	}
 
-	@And("The post request with endpoint {string}")
-	public void the_post_request_with_endpoint(String endPoint) {
+	@And("Post the request with endpoint {string}")
+	public void post_the_request_with_endpoint(String endPoint) {
 		response = repSpec.log().all().post(RestAssured.baseURI + endPoint);
 	}
 
@@ -50,13 +52,9 @@ public class LoginApiReqStepDef {
 
 	@Then("Token should not be null")
 	public void token_should_not_be_null() {
-		token = response.then().assertThat().body("data.token", Matchers.notNullValue()).contentType(ContentType.JSON)
-				.extract().jsonPath().getString("data.token");
+		token = response.then().log().all().assertThat().body("data.token", Matchers.notNullValue())
+				.contentType(ContentType.JSON).extract().jsonPath().getString("data.token");
 
-	}
-
-	public String getToken() {
-		return token;
 	}
 
 }

@@ -92,6 +92,22 @@
 					<classpathScope>test</classpathScope>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-plugin</artifactId>
+				<version>7.21.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version> <!-- or latest stable -->
+				<configuration>
+					<includes>
+						<include>**/CucumberRunner.java</include> <!-- your
+						cucumber runner class -->
+					</includes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
