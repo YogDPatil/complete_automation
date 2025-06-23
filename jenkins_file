@@ -20,6 +20,7 @@ pipeline {
                     } else {
                         sh "mvn clean test-compile test -Dcucumber.filter.tags=@${params.cucumber_tags}"
                     }
+allure includeProperties: false, jdk: '', properties: [[key: '', value: '']], results: [[path: 'allure_report'], [path: 'allure-results']]
                 }
             }
         }
