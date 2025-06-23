@@ -66,11 +66,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>Auto_HRM</groupId>
-			<artifactId>Auto_HRM</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
