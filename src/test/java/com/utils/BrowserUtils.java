@@ -91,9 +91,6 @@ public abstract class BrowserUtils {
 		try {
 			if (!dir.exists()) {
 				FileUtils.forceMkdir(dir);
-			} else {
-				FileUtils.forceDelete(dir);
-				FileUtils.forceMkdir(dir);
 			}
 			FileUtils.copyFile(srcFile, destFile);
 		} catch (IOException e) {
