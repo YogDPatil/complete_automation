@@ -1,6 +1,9 @@
 package com.ui.tests;
 
 import org.testng.annotations.AfterMethod;
+
+import java.util.HashMap;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -27,7 +30,7 @@ public abstract class TestBase {
 
 	@Parameters({ "browser", "env" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env) {
+	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
 		environment = Env.valueOf(env.toUpperCase());
 		boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 		if (browser.equalsIgnoreCase("chrome")) {
@@ -36,6 +39,7 @@ public abstract class TestBase {
 			if (headless) {
 				opt.addArguments("--headless");
 			}
+			opt.addArguments("user-data-dir=/tmp/selenium-profile"); 
 			driver = new ChromeDriver(opt);
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
