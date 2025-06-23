@@ -14,6 +14,8 @@ pipeline {
             steps {
                 dir('complete_automation'){
                 script {
+                       sh "pwd"
+                    sh 'ls -l'
                     if (params.run_mode == 'testng') {
                         sh "mvn clean test-compile exec:java -Dexec.args='${params.browser} ${params.env} ${params.component} ${params.test_type}' -Dheadless=${params.headless}"
                     } else {
