@@ -6,14 +6,9 @@ pipeline {
         stage('Run Maven Based on Mode') {
             steps {
                 script {
-                    sh 'pwd && ls -l'
-
+                 
                     if (params.run_mode == 'testng') {
-                        sh """
-                            mvn clean test-compile exec:java \
-                            -Dexec.args='${params.browser} ${params.env} ${params.component} ${params.test_type}' \
-                            -Dheadless=${params.headless}
-                        """
+                        sh "mvn clean test-compile exec:java -Dexec.args='${params.browser} ${params.env} ${params.component} ${params.test_type}' -Dheadless=${params.headless}"
                     } else {
                         sh "mvn clean test-compile test -Dcucumber.filter.tags=@${params.cucumber_tags}"
                     }
