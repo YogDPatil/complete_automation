@@ -15,21 +15,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Allure Report') {
-            steps {
-                allure([
-                    includeProperties: true,
-                    jdk: '',
-                    properties: [
-                        [key: 'Run Mode', value: params.run_mode],
-                        [key: 'Browser', value: params.browser],
-                        [key: 'Env', value: params.env],
-                        [key: 'Component', value: params.component]
-                    ],
-                    results: [[path: 'target/allure-results']]
-                ])
-            }
-        }
     }
 }
