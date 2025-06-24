@@ -1,28 +1,43 @@
 pipeline {
     agent any
-    parameters {
-        choice(name: 'run_mode', choices: ['testng', 'cucumber'], description: 'Select runner')
-        booleanParam(name: 'headless', defaultValue: true, description: 'Enable headless mode')
+
+    tools {
+        allure 'AllureCommandline'
+        maven 'MAVEN_HOME'
     }
+
     stages {
         stage('Run Maven Based on Mode') {
             steps {
                 script {
-                       sh "pwd"
-                    sh 'ls -l'
+                    sh 'pwd && ls -l'
+
                     if (params.run_mode == 'testng') {
-                         parameters {
-                            choice(name: 'browser', choices: ['chrome', 'firefox'], description: 'Select browser')
-                            choice(name: 'env', choices: ['qa', 'dev', 'uat'], description: 'Select environment')
-                            choice(name: 'component', choices: ['ui', 'api', 'mobile'], description: 'Select component')
-                            choice(name: 'test_type', choices: ['smoke', 'sanity', 'regression'], description: 'Select test type')
-                        sh "mvn clean test-compile exec:java -Dexec.args='${params.browser} ${params.env} ${params.component} ${params.test_type}' -Dheadless=${params.headless}"
+                        sh """
+                            mvn clean test-compile exec:java \
+                            -Dexec.args='${params.browser} ${params.env} ${params.component} ${params.test_type}' \
+                            -Dheadless=${params.headless}
+                        """
                     } else {
-                        choice(name: 'cucumber_tags', choices: ['login', 'create_job'], description: 'Select cucumber tag')
                         sh "mvn clean test-compile test -Dcucumber.filter.tags=@${params.cucumber_tags}"
                     }
-allure includeProperties: false, jdk: '', properties: [[key: '', value: '']], results: [[path: 'allure_report'], [path: 'allure-results']]
                 }
+            }
+        }
+
+        stage('Allure Report') {
+            steps {
+                allure([
+                    includeProperties: true,
+                    jdk: '',
+                    properties: [
+                        [key: 'Run Mode', value: params.run_mode],
+                        [key: 'Browser', value: params.browser],
+                        [key: 'Env', value: params.env],
+                        [key: 'Component', value: params.component]
+                    ],
+                    results: [[path: 'target/allure-results']]
+                ])
             }
         }
     }
