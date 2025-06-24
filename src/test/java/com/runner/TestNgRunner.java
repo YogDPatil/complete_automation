@@ -8,6 +8,11 @@ import org.testng.xml.XmlPackage;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
+import com.constants.Browser;
+import com.constants.Componant;
+import com.constants.Env;
+import com.constants.TestType;
+
 public class TestNgRunner {
 
 	private static String browser, env, componant, testType;
@@ -46,7 +51,7 @@ public class TestNgRunner {
 			suiteList.add(xmlSuit);
 
 			testNg.setXmlSuites(suiteList);
-			testNg.setVerbose(3); 
+			testNg.setVerbose(3);
 			testNg.run();
 		} else
 			System.out.println("Configuration is not correct");
@@ -54,7 +59,8 @@ public class TestNgRunner {
 	}
 
 	public static boolean verifyBrowser(String browser) {
-		if (browser.equalsIgnoreCase("chrome") || browser.equalsIgnoreCase("firefox")
+		if (browser.equalsIgnoreCase(String.valueOf(Browser.CHROME).toLowerCase())
+				|| browser.equalsIgnoreCase(String.valueOf(Browser.FIREFOX).toLowerCase())
 				|| browser.equalsIgnoreCase("edge")) {
 			return true;
 		} else
@@ -62,22 +68,27 @@ public class TestNgRunner {
 	}
 
 	public static boolean verifyEnvironment(String env) {
-		if (env.equalsIgnoreCase("qa") || env.equalsIgnoreCase("dev") || env.equalsIgnoreCase("uat")) {
+		if (env.equalsIgnoreCase(String.valueOf(Env.QA).toLowerCase())
+				|| env.equalsIgnoreCase(String.valueOf(Env.DEV).toLowerCase())
+				|| env.equalsIgnoreCase(String.valueOf(Env.UAT).toLowerCase())) {
 			return true;
 		} else
 			return false;
 	}
 
 	public static boolean verifyComponant(String component) {
-		if (component.equalsIgnoreCase("ui") || component.equalsIgnoreCase("mobile")
-				|| component.equalsIgnoreCase("api")) {
+		if (component.equalsIgnoreCase(String.valueOf(Componant.UI).toLowerCase())
+				|| component.equalsIgnoreCase(String.valueOf(Componant.MOBILE).toLowerCase())
+				|| component.equalsIgnoreCase(String.valueOf(Componant.API).toLowerCase())) {
 			return true;
 		} else
 			return false;
 	}
 
 	public static boolean verifyTestType(String type) {
-		if (type.equalsIgnoreCase("sanity") || type.equalsIgnoreCase("smoke") || type.equalsIgnoreCase("regression")) {
+		if (type.equalsIgnoreCase(String.valueOf(TestType.SANITY).toLowerCase())
+				|| type.equalsIgnoreCase(String.valueOf(TestType.SMOKE).toLowerCase())
+				|| type.equalsIgnoreCase(String.valueOf(TestType.REGRESSION).toLowerCase())) {
 			return true;
 		} else
 			return false;
