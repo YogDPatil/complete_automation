@@ -9,7 +9,7 @@ Feature: Create job from api
     Then Token should not be null
 
   @create_job
-  Scenario: To validate user create job from api
+  Scenario: To validate user can create job from api
     Given The base url for the create job api "http://64.227.160.186:9000/v1"
     And The header of the create job request
       | Content-Type | application/json |
