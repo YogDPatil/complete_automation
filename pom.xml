@@ -99,7 +99,7 @@
 				<version>3.2.5</version> <!-- or latest stable -->
 				<configuration>
 					<includes>
-						<include>**/CucumberRunner.java</include> <!-- your
+						<include>${runnerClass}</include> <!-- your
 						cucumber runner class -->
 					</includes>
 				</configuration>

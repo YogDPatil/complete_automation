@@ -1,4 +1,4 @@
-package com.api.stepdefinations;
+package com.api.stepDefinations;
 
 import java.util.Map;
 import java.util.Map.Entry;
