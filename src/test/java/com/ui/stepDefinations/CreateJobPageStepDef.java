@@ -9,17 +9,17 @@ public class CreateJobPageStepDef {
 
 	@Given("user is on create job page")
 	public void user_is_on_create_job_page() {
-	
+
 	}
 
 	@When("user enters job details")
 	public void user_enters_job_details() {
-		
+
 	}
 
 	@And("click on {string} button")
-	public void click_on_button(String string) {
-		
+	public void click_on_button(String submitBtn) {
+
 	}
 
 	@Then("job should be creat and id is generated")

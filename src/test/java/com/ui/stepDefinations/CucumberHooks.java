@@ -10,39 +10,16 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class CucumberHooks {
-
-	protected WebDriver driver;
+public final class CucumberHooks extends StepDefTestBase {
 
 	@Before()
-	public void initialiseBrowser() {
-		
-		String browser = System.getProperty("browser") != null ? browser = System.getProperty("browser") : "chrome";
-
-		Boolean headless = Boolean.valueOf(System.getProperty("headless"));
-
-		if (browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			ChromeOptions opt = new ChromeOptions();
-			if (headless) {
-				opt.addArguments("--headless");
-			}
-			opt.addArguments("user-data-dir=/tmp/selenium-profile");
-			driver = new ChromeDriver(opt);
-
-		} else if (browser.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			FirefoxOptions opt = new FirefoxOptions();
-			if (headless) {
-				opt.addArguments("--headless");
-			}
-			driver = new FirefoxDriver();
-		}
+	public void init() {
+		initialiseDriver();
 	}
 
 	@After
 	public void tearDown() {
-		if (driver != null) {
+		if (getDriver() != null) {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {

@@ -1,0 +1,49 @@
+package com.ui.stepDefinations;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+import com.constants.Browser;
+import com.constants.Env;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public abstract class StepDefTestBase {
+
+	protected static WebDriver driver;
+	protected static Env env;
+
+	public void initialiseDriver() {
+		String browser = System.getProperty("browser") != null ? browser = System.getProperty("browser")
+				: String.valueOf(Browser.CHROME).toLowerCase();
+		env = Env.valueOf(System.getProperty("environment") != null ? System.getProperty("environment")
+				: String.valueOf(Env.QA));
+		Boolean headless = Boolean.valueOf(System.getProperty("headless"));
+
+		if (browser.equalsIgnoreCase("chrome")) {
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions opt = new ChromeOptions();
+			if (headless) {
+				opt.addArguments("--headless");
+			}
+			opt.addArguments("user-data-dir=/tmp/selenium-profile");
+			driver = new ChromeDriver(opt);
+
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			FirefoxOptions opt = new FirefoxOptions();
+			if (headless) {
+				opt.addArguments("--headless");
+			}
+			driver = new FirefoxDriver();
+		}
+	}
+
+	public WebDriver getDriver() {
+		return driver;
+	}
+
+}
