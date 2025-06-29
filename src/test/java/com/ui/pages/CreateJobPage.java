@@ -47,7 +47,7 @@ public final class CreateJobPage extends BrowserUtils {
 	}
 
 	public String enterJobDetailsAndCreateJob(String oem, String productName, String modelName, String mmddyyyy,
-			String warrantyStatus, String state) {
+			String warrantyStatus) {
 		clickOn(OEM_DROPDOWN_LOCATOR);
 		selectOptionFromList(OEM_OPTIONS_LOCATOR, oem);
 		clickOn(PRODUCT_NAME_DROPDOWN_LOCATOR);
@@ -71,7 +71,7 @@ public final class CreateJobPage extends BrowserUtils {
 		enterText(STREET_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("streetName"));
 		enterText(AREA_FIELD_LOCATOR, TestUtils.getFakeData().get("area"));
 		clickOn(STATE_FIELD_LOCATOR);
-		selectOptionFromList(STATE_OPTIONS_LOCATOR, state);
+		selectOptionFromList(STATE_OPTIONS_LOCATOR, "Maharashtra");
 		enterText(PINCODE_FIELD_LOCATOR, TestUtils.getFakeData().get("pincode"));
 		clickOn(SUBMIT_BUTTON_LOCATOR);
 		return (getElementText(JOB_CREATED_TOAST_MASSAGE_LOCATOR).split(" "))[0];
