@@ -2,7 +2,9 @@ package com.ui.tests;
 
 import org.testng.annotations.AfterMethod;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -39,7 +41,7 @@ public abstract class TestBase {
 			if (headless) {
 				opt.addArguments("--headless");
 			}
-			opt.addArguments("user-data-dir=/tmp/selenium-profile"); 
+			opt.addArguments("user-data-dir=/tmp/selenium-profile");
 			driver = new ChromeDriver(opt);
 		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
@@ -65,7 +67,7 @@ public abstract class TestBase {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			driver.quit();
+//			driver.quit();
 		}
 	}
 

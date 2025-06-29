@@ -12,6 +12,7 @@ import io.cucumber.java.en.Then;
 
 public final class LoginPageStepDef extends StepDefTestBase {
 	private DashboardPage dashboardPage;
+	
 
 	@Given("user is on login page")
 	public void user_is_on_login_page() {
