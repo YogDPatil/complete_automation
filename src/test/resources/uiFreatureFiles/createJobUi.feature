@@ -7,4 +7,4 @@ Feature: Create job functionality from ui
   Scenario: To validate that user can create job from ui
     Given user is on create job page
     When user enters job details and submit it
-    Then job should be creat and id is generated
+    Then job should be create and id is generated

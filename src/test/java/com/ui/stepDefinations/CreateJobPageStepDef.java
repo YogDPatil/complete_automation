@@ -34,7 +34,7 @@ public final class CreateJobPageStepDef extends StepDefTestBase {
 		jobId = createJob.enterJobDetailsAndCreateJob("apple", "iphone", "iphone 11", "3/23/2025", "In Warrenty");
 	}
 
-	@Then("job should be creat and id is generated")
+	@Then("job should be create and id is generated")
 	public void job_should_be_creat_and_id_is_generated() {
 		Assert.assertTrue(jobId.contains("JOB_"), "Error: Job is not created.");
 	}
