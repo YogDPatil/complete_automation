@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.constants.Browser;
 import com.constants.Env;
+import com.ui.pages.LoginPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -17,10 +18,10 @@ public abstract class StepDefTestBase {
 	protected static Env env;
 
 	public void initialiseDriver() {
-		String browser = System.getProperty("browser") != null ? browser = System.getProperty("browser")
+		String browser = System.getProperty("browser") != null ? System.getProperty("browser")
 				: String.valueOf(Browser.CHROME).toLowerCase();
-		env = Env.valueOf(System.getProperty("environment") != null ? System.getProperty("environment")
-				: String.valueOf(Env.QA));
+		env = Env.valueOf(
+				System.getProperty("environment") != null ? System.getProperty("environment") : String.valueOf(Env.QA));
 		Boolean headless = Boolean.valueOf(System.getProperty("headless"));
 
 		if (browser.equalsIgnoreCase("chrome")) {
@@ -40,10 +41,15 @@ public abstract class StepDefTestBase {
 			}
 			driver = new FirefoxDriver();
 		}
+		driver.manage().window().maximize();
 	}
 
 	public WebDriver getDriver() {
 		return driver;
+	}
+
+	public LoginPage getLoginPage() {
+		return new LoginPage(driver);
 	}
 
 }
