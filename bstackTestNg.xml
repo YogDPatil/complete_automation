@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+	<test thread-count="5" name="Windows-Chrome-Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<parameter name="env" value="qa"></parameter>
+		<parameter name="os" value="Windows"></parameter>
+		<parameter name="os_version" value="11"></parameter>
+		<parameter name="browser_version" value="120.0"></parameter>
+		<classes>
+			<class name="com.ui.tests.LoginPageTest" />
+			<class name="com.ui.tests.CreateJobPageTest" />
+			<class name="com.ui.tests.AssignJobPageTest" />
+			<class name="com.ui.tests.RepairJobPageTest" />
+		</classes>
+	</test>
+	<test thread-count="5" name="Windows-Firefox-Test">
+		<parameter name="browser" value="firefox"></parameter>
+		<parameter name="env" value="qa"></parameter>
+		<parameter name="os" value="Windows"></parameter>
+		<parameter name="os_version" value="11"></parameter>
+		<parameter name="browser_version" value="120.0"></parameter>
+		<classes>
+			<class name="com.ui.tests.LoginPageTest" />
+			<class name="com.ui.tests.CreateJobPageTest" />
+			<class name="com.ui.tests.AssignJobPageTest" />
+			<class name="com.ui.tests.RepairJobPageTest" />
+		</classes>
+	</test>
+	<test thread-count="5" name="Mac-Chrome-Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<parameter name="env" value="qa"></parameter>
+		<parameter name="os" value="OS X"></parameter>
+		<parameter name="os_version" value="Sonoma"></parameter>
+		<parameter name="browser_version" value="120.0"></parameter>
+		<classes>
+			<class name="com.ui.tests.LoginPageTest" />
+			<class name="com.ui.tests.CreateJobPageTest" />
+			<class name="com.ui.tests.AssignJobPageTest" />
+			<class name="com.ui.tests.RepairJobPageTest" />
+		</classes>
+	</test>
+	<test thread-count="5" name="Mac-Firefox-Test">
+		<parameter name="browser" value="firefox"></parameter>
+		<parameter name="env" value="qa"></parameter>
+		<parameter name="os" value="OS X"></parameter>
+		<parameter name="os_version" value="Sonoma"></parameter>
+		<parameter name="browser_version" value="120.0"></parameter>
+		<classes>
+			<class name="com.ui.tests.LoginPageTest" />
+			<class name="com.ui.tests.CreateJobPageTest" />
+			<class name="com.ui.tests.AssignJobPageTest" />
+			<class name="com.ui.tests.RepairJobPageTest" />
+		</classes>
+	</test>
+	
+</suite> <!--
+Suite -->

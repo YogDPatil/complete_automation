@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -103,6 +104,11 @@ public abstract class BrowserUtils {
 			e.printStackTrace();
 		}
 		return destFilePath;
+	}
+
+	public void scrollUptoTheElement(By locator) {
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();",
+				wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
 	}
 
 }

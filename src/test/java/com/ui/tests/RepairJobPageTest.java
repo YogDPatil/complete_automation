@@ -1,10 +1,12 @@
 package com.ui.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.constants.ConfigConst;
 
+@Listeners(com.ui.listeners.UiListeners.class)
 public final class RepairJobPageTest extends TestBase {
 
 	@Test(dependsOnMethods = "com.ui.tests.AssignJobPageTest.validateAssignJobFromUi", groups = { "smoke",

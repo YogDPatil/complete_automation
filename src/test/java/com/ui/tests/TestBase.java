@@ -16,6 +16,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -37,7 +39,7 @@ public abstract class TestBase {
 
 	@Parameters({ "browser", "env", "os", "os_version", "browser_version" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env,
+	public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env,
 			@Optional("Windows") String os, @Optional("10") String osVersion, @Optional("120.0") String browserVersion,
 			Method method) {
 		environment = Env.valueOf(env.toUpperCase());
@@ -61,26 +63,34 @@ public abstract class TestBase {
 				caps.setCapability("bstack:options", bstackOptions);
 				driver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
 			} else {
-				if (browser.equalsIgnoreCase("chrome")) {
+				switch (browser.toLowerCase()) {
+				case "chrome":
 					WebDriverManager.chromedriver().setup();
 					ChromeOptions opt = new ChromeOptions();
 					if (headless) {
 						opt.addArguments("--headless");
 					}
-					opt.addArguments("user-data-dir=/tmp/selenium-profile");
 					driver = new ChromeDriver(opt);
-				} else if (browser.equalsIgnoreCase("firefox")) {
+					break;
+				case "firefox":
 					WebDriverManager.firefoxdriver().setup();
-					FirefoxOptions options = new FirefoxOptions();
-					if (headless) {
-						options.addArguments("--headless");
-					}
-					driver = new FirefoxDriver(options);
-				} else {
-					System.out.println(browser + " is not compatible");
+					FirefoxOptions firefoxOpt = new FirefoxOptions();
+					if (headless)
+						firefoxOpt.addArguments("--headless");
+					driver = new FirefoxDriver(firefoxOpt);
+					break;
+				case "safari":
+					WebDriverManager.safaridriver().setup();
+					driver = new SafariDriver();
+					break;
+				default:
+					throw new Exception("Error: " + browser + " is not compatible");
 				}
 			}
-		} catch (Exception e) {
+
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 		driver.manage().window().maximize();

@@ -21,6 +21,7 @@ public final class AssignJobPage extends BrowserUtils {
 	}
 
 	public String assignJob(String jobId) {
+//		scrollUptoTheElement(By.xpath("//mat-cell[contains(text(),'" + jobId + "')]"));
 		findWebElement(By.xpath("//mat-cell[contains(text(),'" + jobId
 				+ "')]/following-sibling::mat-cell[contains(@class,'engineerlist')]")).click();
 		getRandomELementFromListOfElements(ENG_LIST_LOCATOR).click();
