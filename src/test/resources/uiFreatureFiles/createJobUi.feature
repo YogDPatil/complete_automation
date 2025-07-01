@@ -1,7 +1,7 @@
 Feature: Create job functionality from ui
 
   Background:
-  	Given user login to the app and redirects to the dashboard page
+    Given user login to the app and redirects to the dashboard page
 
   @create_job
   Scenario: To validate that user can create job from ui
