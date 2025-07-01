@@ -1,12 +1,18 @@
 package com.ui.pages;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.utils.BrowserUtils;
 import com.utils.TestUtils;
 
 public final class CreateJobPage extends BrowserUtils {
+
+	private WebDriver driver;
 
 	private static final By OEM_DROPDOWN_LOCATOR = By.xpath("//mat-select[@placeholder='Select OEM']");
 	private static final By OEM_OPTIONS_LOCATOR = By.cssSelector("mat-option[role='option']");
@@ -40,10 +46,17 @@ public final class CreateJobPage extends BrowserUtils {
 	private static final By JOB_CREATED_TOAST_MASSAGE_LOCATOR = By
 			.xpath("//span[@class='mat-simple-snack-bar-content']");
 
-	
-
 	public CreateJobPage(WebDriver driver) {
 		super(driver);
+	}
+
+	public void eleList() {
+		List<String> activeTexts = driver.findElements(By.cssSelector(".status"))
+				.stream()
+				.filter(element -> element.isDisplayed())
+				.map(element -> element.getText())
+				.filter(text -> text.contains("Active"))
+				.collect(Collectors.toList());
 	}
 
 	public String enterJobDetailsAndCreateJob(String oem, String productName, String modelName, String mmddyyyy,

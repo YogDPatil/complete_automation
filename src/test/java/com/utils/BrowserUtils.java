@@ -7,6 +7,8 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -59,6 +61,10 @@ public abstract class BrowserUtils {
 				break;
 			}
 		}
+//	 STREAM API syntax --> for filter, mapping and picking random things 	
+//		elements.stream().filter(ele -> ele.getText().equalsIgnoreCase(option)).findFirst()
+//				.ifPresent(ele -> ele.click());
+
 	}
 
 	public WebElement getRequredELementFromListOfElements(By locator) {

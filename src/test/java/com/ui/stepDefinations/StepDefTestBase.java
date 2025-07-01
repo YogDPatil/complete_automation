@@ -20,6 +20,7 @@ public abstract class StepDefTestBase {
 	public void initialiseDriver() {
 		String browser = System.getProperty("browser") != null ? System.getProperty("browser")
 				: String.valueOf(Browser.CHROME).toLowerCase();
+		boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
 		env = Env.valueOf(
 				System.getProperty("environment") != null ? System.getProperty("environment") : String.valueOf(Env.QA));
 		Boolean headless = Boolean.valueOf(System.getProperty("headless"));

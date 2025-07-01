@@ -2,15 +2,20 @@ package com.ui.tests;
 
 import org.testng.annotations.AfterMethod;
 
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -30,30 +35,54 @@ public abstract class TestBase {
 	protected LoginPage loginPage;
 	protected Env environment;
 
-	@Parameters({ "browser", "env" })
+	@Parameters({ "browser", "env", "os", "os_version", "browser_version" })
 	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env) {
+	public void driverSetup(@Optional("chrome") String browser, @Optional("qa") String env,
+			@Optional("Windows") String os, @Optional("10") String osVersion, @Optional("120.0") String browserVersion,
+			Method method) {
 		environment = Env.valueOf(env.toUpperCase());
 		boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
-		if (browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
-			ChromeOptions opt = new ChromeOptions();
-			if (headless) {
-				opt.addArguments("--headless");
-			}
-			opt.addArguments("user-data-dir=/tmp/selenium-profile");
-			driver = new ChromeDriver(opt);
-		} else if (browser.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
-			FirefoxOptions options = new FirefoxOptions();
-			if (headless) {
-				options.addArguments("--headless");
-			}
-			driver = new FirefoxDriver(options);
-		} else {
-			System.out.println(browser + " is not compatible");
-		}
+		boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
+		try {
+			if (isRemote) {
+				MutableCapabilities caps = new MutableCapabilities();
+				caps.setCapability("browserName", browser);
+				caps.setCapability("browserVersion", browserVersion);
 
+				Map<String, Object> bstackOptions = new HashMap<>();
+				bstackOptions.put("os", os);
+				bstackOptions.put("osVersion", osVersion);
+				bstackOptions.put("browserVersion", browserVersion);
+				bstackOptions.put("userName",
+						TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_USERNAME));
+				bstackOptions.put("accessKey",
+						TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
+				bstackOptions.put("sessionName", method.getName());
+				caps.setCapability("bstack:options", bstackOptions);
+				driver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
+			} else {
+				if (browser.equalsIgnoreCase("chrome")) {
+					WebDriverManager.chromedriver().setup();
+					ChromeOptions opt = new ChromeOptions();
+					if (headless) {
+						opt.addArguments("--headless");
+					}
+					opt.addArguments("user-data-dir=/tmp/selenium-profile");
+					driver = new ChromeDriver(opt);
+				} else if (browser.equalsIgnoreCase("firefox")) {
+					WebDriverManager.firefoxdriver().setup();
+					FirefoxOptions options = new FirefoxOptions();
+					if (headless) {
+						options.addArguments("--headless");
+					}
+					driver = new FirefoxDriver(options);
+				} else {
+					System.out.println(browser + " is not compatible");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		driver.manage().window().maximize();
 		driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
 		loginPage = new LoginPage(driver);
@@ -67,8 +96,7 @@ public abstract class TestBase {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-//			driver.quit();
+			driver.quit();
 		}
 	}
-
 }
