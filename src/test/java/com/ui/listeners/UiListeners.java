@@ -50,7 +50,6 @@ public class UiListeners implements ITestListener {
 
 	@Override
 	public void onTestFailedWithTimeout(ITestResult result) {
-		// TODO Auto-generated method stub
 		ITestListener.super.onTestFailedWithTimeout(result);
 	}
 
@@ -78,7 +77,7 @@ public class UiListeners implements ITestListener {
 	public void onFinish(ITestContext context) {
 		ITestListener.super.onFinish(context);
 		extentReports.flush();
-		
+
 	}
 
 }

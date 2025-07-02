@@ -108,7 +108,8 @@ public abstract class BrowserUtils {
     }
 
     public void scrollUptoTheElement(By locator) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();",
+                wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
     }
 
 }
