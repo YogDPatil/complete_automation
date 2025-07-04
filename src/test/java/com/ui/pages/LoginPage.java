@@ -2,11 +2,10 @@ package com.ui.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import com.constants.ConfigConst;
 import com.constants.Env;
 import com.utils.BrowserUtils;
-import com.utils.TestUtils;
+import static com.utils.TestUtils.*;
 
 public final class LoginPage extends BrowserUtils {
 
@@ -22,8 +21,8 @@ public final class LoginPage extends BrowserUtils {
 	}
 
 	public DashboardPage doLogin(Env env, ConfigConst user) {
-		enterText(USERNAME_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile(env, user));
-		enterText(PASSWORD_FIELD_LOCATOR, TestUtils.getValueFromPropertiesFile(env, ConfigConst.PASSWORD));
+		enterText(USERNAME_FIELD_LOCATOR, getValueFromPropertiesFile(env, user));
+		enterText(PASSWORD_FIELD_LOCATOR, getValueFromPropertiesFile(env, ConfigConst.PASSWORD));
 		clickOn(SIGN_IN_BUTTON_LOCATOR);
 		return new DashboardPage(driver);
 	}

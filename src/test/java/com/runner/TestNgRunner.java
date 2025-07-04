@@ -15,84 +15,62 @@ import com.constants.TestType;
 
 public class TestNgRunner {
 
-	private static String browser, env, componant, testType;
+    private static String browser, env, componant, testType;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		if (verifyBrowser(args[0]) && verifyEnvironment(args[1]) && verifyComponant(args[2])
-				&& verifyTestType(args[3])) {
-			browser = args[0];
-			env = args[1];
-			componant = args[2];
-			testType = args[3];
+        if (verifyBrowser(args[0]) && verifyEnvironment(args[1]) && verifyComponant(args[2]) && verifyTestType(args[3])) {
+            browser = args[0];
+            env = args[1];
+            componant = args[2];
+            testType = args[3];
 
-			TestNG testNg = new TestNG();
+            TestNG testNg = new TestNG();
 
-			XmlSuite xmlSuit = new XmlSuite();
-			xmlSuit.setName("My " + env + " phoenix app " + componant + " suit");
+            XmlSuite xmlSuit = new XmlSuite();
+            xmlSuit.setName("My " + env + " phoenix app " + componant + " suit");
 
-			XmlTest xmlTest = new XmlTest(xmlSuit);
-			xmlTest.setName(componant + " " + testType + " automation Test");
-			xmlTest.addParameter("browser", browser);
-			xmlTest.addParameter("env", env);
-			
-			xmlTest.addIncludedGroup(testType);
+            XmlTest xmlTest = new XmlTest(xmlSuit);
+            xmlTest.setName(componant + " " + testType + " automation Test");
+            xmlTest.addParameter("browser", browser);
+            xmlTest.addParameter("env", env);
 
-			XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");
-			List<XmlPackage> packageList = new ArrayList<>();
+            xmlTest.addIncludedGroup(testType);
 
-			packageList.add(xmlPackage);
-			xmlTest.setPackages(packageList);
+            XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");
+            List<XmlPackage> packageList = new ArrayList<>();
 
-			List<XmlTest> testList = new ArrayList<>();
-			testList.add(xmlTest);
-			xmlSuit.setTests(testList);
+            packageList.add(xmlPackage);
+            xmlTest.setPackages(packageList);
 
-			List<XmlSuite> suiteList = new ArrayList<>();
-			suiteList.add(xmlSuit);
+            List<XmlTest> testList = new ArrayList<>();
+            testList.add(xmlTest);
+            xmlSuit.setTests(testList);
 
-			testNg.setXmlSuites(suiteList);
-			testNg.setVerbose(3);
-			testNg.run();
-		} else
-			System.out.println("Configuration is not correct");
+            List<XmlSuite> suiteList = new ArrayList<>();
+            suiteList.add(xmlSuit);
 
-	}
+            testNg.setXmlSuites(suiteList);
+            testNg.setVerbose(3);
+            testNg.run();
+        } else System.out.println("Configuration is not correct");
 
-	public static boolean verifyBrowser(String browser) {
-		if (browser.equalsIgnoreCase(String.valueOf(Browser.CHROME).toLowerCase())
-				|| browser.equalsIgnoreCase(String.valueOf(Browser.FIREFOX).toLowerCase())
-				|| browser.equalsIgnoreCase("edge")) {
-			return true;
-		} else
-			return false;
-	}
+    }
 
-	public static boolean verifyEnvironment(String env) {
-		if (env.equalsIgnoreCase(String.valueOf(Env.QA).toLowerCase())
-				|| env.equalsIgnoreCase(String.valueOf(Env.DEV).toLowerCase())
-				|| env.equalsIgnoreCase(String.valueOf(Env.UAT).toLowerCase())) {
-			return true;
-		} else
-			return false;
-	}
+    public static boolean verifyBrowser(String browser) {
+        return browser.equalsIgnoreCase(Browser.CHROME.toString()) || browser.equalsIgnoreCase(Browser.FIREFOX.toString()) || browser.equalsIgnoreCase("edge");
+    }
 
-	public static boolean verifyComponant(String component) {
-		if (component.equalsIgnoreCase(String.valueOf(Componant.UI).toLowerCase())
-				|| component.equalsIgnoreCase(String.valueOf(Componant.MOBILE).toLowerCase())
-				|| component.equalsIgnoreCase(String.valueOf(Componant.API).toLowerCase())) {
-			return true;
-		} else
-			return false;
-	}
+    public static boolean verifyEnvironment(String env) {
+        return env.equalsIgnoreCase(Env.QA.toString()) || env.equalsIgnoreCase(Env.DEV.toString()) || env.equalsIgnoreCase(Env.UAT.toString());
+    }
 
-	public static boolean verifyTestType(String type) {
-		if (type.equalsIgnoreCase(String.valueOf(TestType.SANITY).toLowerCase())
-				|| type.equalsIgnoreCase(String.valueOf(TestType.SMOKE).toLowerCase())
-				|| type.equalsIgnoreCase(String.valueOf(TestType.REGRESSION).toLowerCase())) {
-			return true;
-		} else
-			return false;
-	}
+    public static boolean verifyComponant(String component) {
+        return component.equalsIgnoreCase(String.valueOf(Componant.UI).toLowerCase()) || component.equalsIgnoreCase(String.valueOf(Componant.MOBILE).toLowerCase()) || component.equalsIgnoreCase(String.valueOf(Componant.API).toLowerCase());
+    }
+
+    public static boolean verifyTestType(String type) {
+        return type.equalsIgnoreCase(TestType.SANITY.toString()) || type.equalsIgnoreCase(TestType.SMOKE.toString()) || type.equalsIgnoreCase(TestType.REGRESSION.toString());
+    }
 
 }

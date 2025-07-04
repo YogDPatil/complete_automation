@@ -3,6 +3,7 @@ package com.mobile.tests;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
@@ -27,12 +28,12 @@ public abstract class MobileTestBase {
                 bstackOptions.put("userName", "yogeshpatil_oxzFPK");
                 bstackOptions.put("accessKey", "giDBVufsxM9GFnwcjp37");
 //                bstackOptions.put("buildName", method.getName());
-                caps.setCapability("platformName", "android");
-                caps.setCapability("appium:platformVersion", "12.0");
-                caps.setCapability("appium:deviceName", "Samsung Galaxy S22 Ultra");
+                caps.setCapability("platformName", "ios");
+                caps.setCapability("appium:platformVersion", "16");
+                caps.setCapability("appium:deviceName", "iPhone 14 Pro Max");
                 caps.setCapability("appium:app", "bs://2fbaf7076692519d794f54bf60dc492a407f09b3");//API demos app
                 caps.setCapability("bstack:options", bstackOptions);
-                driver = new AndroidDriver(new URL("http://hub.browserstack.com/wd/hub"), caps);
+                driver = new IOSDriver(new URL("http://hub.browserstack.com/wd/hub"), caps);
 
             } else {
                 UiAutomator2Options opt = new UiAutomator2Options();
@@ -50,6 +51,6 @@ public abstract class MobileTestBase {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        driver.quit();
+        if (driver != null) driver.quit();
     }
 }
