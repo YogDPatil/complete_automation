@@ -1,8 +1,10 @@
 package com.api.stepDefinations;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
@@ -49,7 +51,7 @@ public class CreateJobApiReqStepDef {
     }
 
     @When("Post the request of create job with endpoint {string}")
-    public void post_the_reques_of_create_jobt_with_endpoint(String endPoint) {
+    public void post_the_request_of_create_job_with_endpoint(String endPoint) {
         response = reqSpec.log().all().post(baseURI + endPoint);
     }
 
@@ -61,5 +63,10 @@ public class CreateJobApiReqStepDef {
     @And("Job id is created")
     public void job_id_is_created() {
         jobID = response.then().assertThat().body("data.id", Matchers.notNullValue()).contentType(ContentType.JSON).extract().jsonPath().getInt("data.id");
+    }
+
+    @And("Validate json schema of created job response")
+    public void validateJsonSchemaOfCreatedJobResponse() {
+        response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(new File(System.getProperty("user.dir") + "/schemas/createJobSchema.json")));
     }
 }

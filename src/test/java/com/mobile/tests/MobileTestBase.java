@@ -1,5 +1,7 @@
 package com.mobile.tests;
 
+import com.constants.Env;
+import com.utils.TestUtils;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -16,12 +18,13 @@ import java.util.HashMap;
 
 public abstract class MobileTestBase {
     protected AppiumDriver driver;
+    protected Env env;
 
     @BeforeMethod(alwaysRun = true)
     public void setUpAppiumDriver(Method method) {
         try {
-            System.out.println(method.getName());
-            boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "true"));
+            env = Env.valueOf(Boolean.parseBoolean(System.getProperty("env")) ? System.getProperty("env") : Env.QA.toString());
+            boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
             if (isRemote) {
                 MutableCapabilities caps = new MutableCapabilities();
                 HashMap<String, Object> bstackOptions = new HashMap<>();
@@ -40,7 +43,7 @@ public abstract class MobileTestBase {
                 opt.setAutomationName("UiAutomator2");
                 opt.setPlatformName("android");
                 opt.setDeviceName("Pixel 9");
-                opt.setApp("/Users/codeclouds-yogesh/Desktop/General-Store.apk");
+                opt.setApp(System.getProperty("user.dir")+"/src/test/resources/testingApps/apiDemos.apk");
                 driver = new AndroidDriver(new URI("http://127.0.0.1:4723").toURL(), opt);
             }
 

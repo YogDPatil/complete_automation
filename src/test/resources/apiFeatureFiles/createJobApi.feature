@@ -17,3 +17,4 @@ Feature: Create job from api
     When Post the request of create job with endpoint "/job/create"
     Then The job should create with status code "200"
     And Job id is created
+    And Validate json schema of created job response

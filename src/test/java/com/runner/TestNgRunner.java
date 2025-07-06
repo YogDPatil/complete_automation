@@ -58,7 +58,7 @@ public class TestNgRunner {
     }
 
     public static boolean verifyBrowser(String browser) {
-        return browser.equalsIgnoreCase(Browser.CHROME.toString()) || browser.equalsIgnoreCase(Browser.FIREFOX.toString()) || browser.equalsIgnoreCase("edge");
+        return browser.equalsIgnoreCase(Browser.CHROME.toString()) || browser.equalsIgnoreCase(Browser.FIREFOX.toString()) || browser.equalsIgnoreCase(Browser.EDGE.toString());
     }
 
     public static boolean verifyEnvironment(String env) {
