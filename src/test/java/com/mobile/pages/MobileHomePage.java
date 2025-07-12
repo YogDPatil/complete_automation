@@ -17,9 +17,9 @@ public final class MobileHomePage extends BrowserUtils {
         this.driver = driver;
     }
 
-    public PreferenceList goToPreferenceList() {
+    public PreferenceListPage goToPreferenceList() {
         clickOn(PREFERENCE_TAB_LOCATOR);
-        return new PreferenceList(driver);
+        return new PreferenceListPage(driver);
     }
 
 }
