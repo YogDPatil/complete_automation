@@ -34,7 +34,7 @@ public class TestNgRunner {
             xmlTest.setName(componant + " " + testType + " automation Test");
             xmlTest.addParameter("browser", browser);
             xmlTest.addParameter("env", env);
-
+            xmlTest.setParallel(XmlSuite.ParallelMode.METHODS);
             xmlTest.addIncludedGroup(testType);
 
             XmlPackage xmlPackage = new XmlPackage("com." + componant + ".tests");

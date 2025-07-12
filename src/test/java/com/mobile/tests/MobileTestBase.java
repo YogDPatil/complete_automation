@@ -1,6 +1,7 @@
 package com.mobile.tests;
 
 import com.constants.Env;
+import com.mobile.pages.MobileHomePage;
 import com.utils.TestUtils;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 
 public abstract class MobileTestBase {
     protected AppiumDriver driver;
+    protected MobileHomePage mobileHomePage;
     protected Env env;
 
     @BeforeMethod(alwaysRun = true)
@@ -43,14 +45,15 @@ public abstract class MobileTestBase {
                 opt.setAutomationName("UiAutomator2");
                 opt.setPlatformName("android");
                 opt.setDeviceName("Pixel 9");
-                opt.setApp(System.getProperty("user.dir")+"/src/test/resources/testingApps/apiDemos.apk");
+                opt.setApp(System.getProperty("user.dir") + "/src/test/resources/testingApps/apiDemos.apk");
                 driver = new AndroidDriver(new URI("http://127.0.0.1:4723").toURL(), opt);
+                mobileHomePage = new MobileHomePage(driver);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
