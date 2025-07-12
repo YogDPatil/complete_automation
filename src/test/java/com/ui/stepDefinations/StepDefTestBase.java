@@ -12,6 +12,8 @@ import com.ui.pages.LoginPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.time.Duration;
+
 public abstract class StepDefTestBase {
 
     protected static WebDriver driver;
