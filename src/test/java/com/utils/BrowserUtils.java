@@ -11,13 +11,9 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BrowserUtils {
@@ -25,11 +21,13 @@ public abstract class BrowserUtils {
     private WebDriver driver;
     private WebDriverWait wait;
     private static WebDriver staticWebDriver;
+    private FluentWait<WebDriver> fluentWait;
 
     public BrowserUtils(WebDriver driver) {
         this.driver = driver;
         staticWebDriver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        fluentWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(500));
     }
 
     public void enterText(By locator, String text) {
@@ -47,7 +45,7 @@ public abstract class BrowserUtils {
     }
 
     public WebElement findWebElement(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return fluentWait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public List<WebElement> findWebElements(By locator) {
@@ -108,8 +106,7 @@ public abstract class BrowserUtils {
     }
 
     public void scrollUptoTheElement(By locator) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();",
-                wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
     }
 
 }
