@@ -27,12 +27,14 @@ public abstract class BrowserUtils {
         this.driver = driver;
         staticWebDriver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.pollingEvery(Duration.ofMillis(500)).ignoring(StaleElementReferenceException.class);
         fluentWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(500));
     }
 
     public void enterText(By locator, String text) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).clear();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
+        WebElement ele = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        ele.clear();
+        ele.click();
     }
 
     public void clickOn(By locator) {
@@ -45,7 +47,7 @@ public abstract class BrowserUtils {
     }
 
     public WebElement findWebElement(By locator) {
-        return fluentWait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public List<WebElement> findWebElements(By locator) {
@@ -54,17 +56,13 @@ public abstract class BrowserUtils {
 
     public void selectOptionFromList(By locator, String option) {
         List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-        for (WebElement ele : elements) {
-            if (ele.getText().equalsIgnoreCase(option)) {
-                ele.click();
-                break;
-            }
-        }
-        // STREAM API syntax --> for filter, mapping and picking random things
-        // elements.stream().filter(ele ->
-        // ele.getText().equalsIgnoreCase(option)).findFirst()
-        // .ifPresent(ele -> ele.click());
-
+//        for (WebElement ele : elements) {
+//            if (ele.getText().equalsIgnoreCase(option)) {
+//                ele.click();
+//                break;
+//            }
+//        }
+        elements.stream().filter(ele -> ele.getText().equalsIgnoreCase(option)).findFirst().ifPresent(ele -> ele.click());
     }
 
     public WebElement getRequredELementFromListOfElements(By locator) {
@@ -82,7 +80,9 @@ public abstract class BrowserUtils {
     }
 
     public String getCurrentPageUrl(String endpoint) {
-        wait.until(ExpectedConditions.urlContains(endpoint));
+//        wait.until(ExpectedConditions.urlContains(endpoint));
+//        return driver.getCurrentUrl();
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.urlContains(endpoint));
         return driver.getCurrentUrl();
     }
 
