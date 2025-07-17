@@ -11,13 +11,9 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BrowserUtils {
@@ -25,16 +21,20 @@ public abstract class BrowserUtils {
     private WebDriver driver;
     private WebDriverWait wait;
     private static WebDriver staticWebDriver;
+    private FluentWait<WebDriver> fluentWait;
 
     public BrowserUtils(WebDriver driver) {
         this.driver = driver;
         staticWebDriver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.pollingEvery(Duration.ofMillis(500)).ignoring(StaleElementReferenceException.class);
+        fluentWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(500));
     }
 
     public void enterText(By locator, String text) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).clear();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
+        WebElement ele = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        ele.clear();
+        ele.click();
     }
 
     public void clickOn(By locator) {
@@ -56,17 +56,13 @@ public abstract class BrowserUtils {
 
     public void selectOptionFromList(By locator, String option) {
         List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-        for (WebElement ele : elements) {
-            if (ele.getText().equalsIgnoreCase(option)) {
-                ele.click();
-                break;
-            }
-        }
-        // STREAM API syntax --> for filter, mapping and picking random things
-        // elements.stream().filter(ele ->
-        // ele.getText().equalsIgnoreCase(option)).findFirst()
-        // .ifPresent(ele -> ele.click());
-
+//        for (WebElement ele : elements) {
+//            if (ele.getText().equalsIgnoreCase(option)) {
+//                ele.click();
+//                break;
+//            }
+//        }
+        elements.stream().filter(ele -> ele.getText().equalsIgnoreCase(option)).findFirst().ifPresent(ele -> ele.click());
     }
 
     public WebElement getRequredELementFromListOfElements(By locator) {
@@ -84,7 +80,9 @@ public abstract class BrowserUtils {
     }
 
     public String getCurrentPageUrl(String endpoint) {
-        wait.until(ExpectedConditions.urlContains(endpoint));
+//        wait.until(ExpectedConditions.urlContains(endpoint));
+//        return driver.getCurrentUrl();
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.urlContains(endpoint));
         return driver.getCurrentUrl();
     }
 
@@ -108,8 +106,7 @@ public abstract class BrowserUtils {
     }
 
     public void scrollUptoTheElement(By locator) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();",
-                wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
     }
 
 }
