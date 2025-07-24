@@ -20,12 +20,10 @@ public abstract class BrowserUtils {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private static WebDriver staticWebDriver;
     private FluentWait<WebDriver> fluentWait;
 
     public BrowserUtils(WebDriver driver) {
         this.driver = driver;
-        staticWebDriver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.pollingEvery(Duration.ofMillis(500)).ignoring(StaleElementReferenceException.class);
         fluentWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(500));
@@ -84,25 +82,6 @@ public abstract class BrowserUtils {
 //        return driver.getCurrentUrl();
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.urlContains(endpoint));
         return driver.getCurrentUrl();
-    }
-
-    public static String takeScreenshot(String testName) {
-        String formattedDate = (new SimpleDateFormat("yyyy-MMM-dd hh:mm")).format(new Date());
-        File srcFile = ((TakesScreenshot) staticWebDriver).getScreenshotAs(OutputType.FILE);
-        String dirPath = System.getProperty("user.dir") + "/screenshots/";
-        File dir = new File(dirPath);
-        String destFilePath = dirPath + testName + "_" + formattedDate + ".png";
-        File destFile = new File(destFilePath);
-
-        try {
-            if (!dir.exists()) {
-                FileUtils.forceMkdir(dir);
-            }
-            FileUtils.copyFile(srcFile, destFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return destFilePath;
     }
 
     public void scrollUptoTheElement(By locator) {

@@ -1,5 +1,6 @@
 package com.ui.tests;
 
+import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 
 import java.lang.reflect.Method;
@@ -33,80 +34,77 @@ import com.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public abstract class TestBase {
-	private WebDriver driver;
-	protected LoginPage loginPage;
-	protected Env environment;
+    private WebDriver driver;
+    protected LoginPage loginPage;
+    protected Env environment;
+    private MutableCapabilities caps;
 
-	@Parameters({ "browser", "env", "os", "os_version", "browser_version" })
-	@BeforeMethod(alwaysRun = true)
-	public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env,
-			@Optional("Windows") String os, @Optional("10") String osVersion, @Optional("120.0") String browserVersion,
-			Method method) {
-		environment = Env.valueOf(env.toUpperCase());
-		boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
-		boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
-		try {
-			if (isRemote) {
-				MutableCapabilities caps = new MutableCapabilities();
-				caps.setCapability("browserName", browser);
-				caps.setCapability("browserVersion", browserVersion);
+    @Parameters({"browser", "env", "os", "os_version", "browser_version"})
+    @BeforeMethod(alwaysRun = true)
+    public void driverSetup(@Optional("firefox") String browser, @Optional("qa") String env, @Optional("Windows") String os, @Optional("10") String osVersion, @Optional("120.0") String browserVersion, Method method, ITestContext context) {
+        environment = Env.valueOf(env.toUpperCase());
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
+        try {
+            if (isRemote) {
+                MutableCapabilities caps = new MutableCapabilities();
+                caps.setCapability("browserName", browser);
+                caps.setCapability("browserVersion", browserVersion);
 
-				Map<String, Object> bstackOptions = new HashMap<>();
-				bstackOptions.put("os", os);
-				bstackOptions.put("osVersion", osVersion);
-				bstackOptions.put("browserVersion", browserVersion);
-				bstackOptions.put("userName",
-						TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_USERNAME));
-				bstackOptions.put("accessKey",
-						TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
-				bstackOptions.put("sessionName", method.getName());
-				caps.setCapability("bstack:options", bstackOptions);
-				driver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
-			} else {
-				switch (browser.toLowerCase()) {
-				case "chrome":
-					WebDriverManager.chromedriver().setup();
-					ChromeOptions opt = new ChromeOptions();
-					if (headless) {
-						opt.addArguments("--headless");
-					}
-					driver = new ChromeDriver(opt);
-					break;
-				case "firefox":
-					WebDriverManager.firefoxdriver().setup();
-					FirefoxOptions firefoxOpt = new FirefoxOptions();
-					if (headless)
-						firefoxOpt.addArguments("--headless");
-					driver = new FirefoxDriver(firefoxOpt);
-					break;
-				case "safari":
-					WebDriverManager.safaridriver().setup();
-					driver = new SafariDriver();
-					break;
-				default:
-					throw new Exception("Error: " + browser + " is not compatible");
-				}
-			}
+                Map<String, Object> bstackOptions = new HashMap<>();
+                bstackOptions.put("os", os);
+                bstackOptions.put("osVersion", osVersion);
+                bstackOptions.put("browserVersion", browserVersion);
+                bstackOptions.put("userName", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_USERNAME));
+                bstackOptions.put("accessKey", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
+                bstackOptions.put("sessionName", method.getName());
+                caps.setCapability("bstack:options", bstackOptions);
+                driver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
+            } else {
+                switch (browser.toLowerCase()) {
+                    case "chrome":
+                        WebDriverManager.chromedriver().setup();
+                        ChromeOptions opt = new ChromeOptions();
+                        if (headless) {
+                            opt.addArguments("--headless");
+                        }
+                        driver = new ChromeDriver(opt);
+                        break;
+                    case "firefox":
+                        WebDriverManager.firefoxdriver().setup();
+                        FirefoxOptions firefoxOpt = new FirefoxOptions();
+                        if (headless) firefoxOpt.addArguments("--headless");
+                        driver = new FirefoxDriver(firefoxOpt);
+                        break;
+                    case "safari":
+                        WebDriverManager.safaridriver().setup();
+                        driver = new SafariDriver();
+                        break;
+                    default:
+                        throw new Exception("Error: " + browser + " is not compatible");
+                }
+            }
 
-		} catch (
+        } catch (
 
-		Exception e) {
-			e.printStackTrace();
-		}
-		driver.manage().window().maximize();
-		driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
-		loginPage = new LoginPage(driver);
-	}
+                Exception e) {
+            e.printStackTrace();
+        }
+        context.setAttribute("webDriver", driver);
+        driver.manage().window().maximize();
+        driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
+        loginPage = new LoginPage(driver);
+    }
 
-	@AfterMethod(alwaysRun = true)
-	public void tearDown() {
-		if (driver != null) {
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			driver.quit();
-		}
-	}
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        if (driver != null) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            driver.quit();
+        }
+    }
 }

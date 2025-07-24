@@ -8,3 +8,4 @@ reports/
 .idea
 .vscode/
 src/test/java/com/runner/run.java
+.DS_Store
