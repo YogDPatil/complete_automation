@@ -14,7 +14,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.time.Duration;
 
-public abstract class StepDefTestBase {
+    public abstract class StepDefTestBase {
 
     protected static WebDriver driver;
     protected static Env env;

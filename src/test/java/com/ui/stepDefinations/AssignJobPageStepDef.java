@@ -23,7 +23,7 @@ public final class AssignJobPageStepDef extends StepDefTestBase {
 
     @Given("fd logged in and create the job")
     public void fd_logged_in_and_create_the_job() {
-        driver.get(TestUtils.getValueFromPropertiesFile(env, ConfigConst.BASE_URL));
+        driver.get(TestUtils.   getValueFromPropertiesFile(env, ConfigConst.BASE_URL));
         jobId = getLoginPage().doLogin(env, ConfigConst.FD_USER).goToCreateJobPage().enterJobDetailsAndCreateJob(
                 "apple",
                 "iphone", "iphone 11", "3/23/2025", "In Warrenty");

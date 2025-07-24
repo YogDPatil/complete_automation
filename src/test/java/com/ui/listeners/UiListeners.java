@@ -4,7 +4,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.utils.TestUtils;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -19,6 +22,7 @@ public class UiListeners implements ITestListener {
     private ExtentSparkReporter extentSparkReporter;
     private ExtentTest extentTest;
 
+
     @Override
     public void onTestStart(ITestResult result) {
         extentTest = extentReports.createTest(result.getMethod().getMethodName());
@@ -32,8 +36,12 @@ public class UiListeners implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        extentTest.addScreenCaptureFromPath(BrowserUtils.takeScreenshot(result.getMethod().getMethodName()));
-
+        WebDriver driver = (WebDriver) result.getTestContext().getAttribute("webDriver");
+        if (driver != null) {
+            extentTest.addScreenCaptureFromPath(TestUtils.takeScreenshot(driver, result.getMethod().getMethodName()));
+        } else {
+            extentTest.fail("WebDriver not found in test context, cannot capture screenshot");
+        }
     }
 
     @Override
