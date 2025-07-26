@@ -10,9 +10,10 @@ import org.openqa.selenium.WebElement;
 import com.utils.BrowserUtils;
 import com.utils.TestUtils;
 
-public final class CreateJobPage extends BrowserUtils {
+public final class CreateJobPage {
 
     private WebDriver driver;
+    private BrowserUtils browserUtils;
 
     private static final By OEM_DROPDOWN_LOCATOR = By.xpath("//mat-select[@placeholder='Select OEM']");
     private static final By OEM_OPTIONS_LOCATOR = By.cssSelector("mat-option[role='option']");
@@ -44,7 +45,8 @@ public final class CreateJobPage extends BrowserUtils {
     private static final By JOB_CREATED_TOAST_MASSAGE_LOCATOR = By.xpath("//span[@class='mat-simple-snack-bar-content']");
 
     public CreateJobPage(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
+        browserUtils = new BrowserUtils(driver);
     }
 
     // public void eleList() {
@@ -55,33 +57,33 @@ public final class CreateJobPage extends BrowserUtils {
     // }
 
     public String enterJobDetailsAndCreateJob(String oem, String productName, String modelName, String date, String warrantyStatus) {
-        clickOn(OEM_DROPDOWN_LOCATOR);
-        selectOptionFromList(OEM_OPTIONS_LOCATOR, oem);
-        clickOn(PRODUCT_NAME_DROPDOWN_LOCATOR);
-        selectOptionFromList(PRODUCT_NAME_OPTIONS_LOCATOR, productName);
-        clickOn(MODEL_NAME_DROPDOWN_LOCATOR);
-        selectOptionFromList(MODEL_NAME_OPTION_LOCATOR, modelName);
-        enterText(IMEI_FIELD_LOCATOR, TestUtils.getFakeData().get("imei"));
-        enterText(DATE_FIELD_LOCATOR, date);
-        clickOn(WARRANTY_STATUS_DROPDOWN_LOCATOR);
-        selectOptionFromList(WARRANTY_STATUS_OPTIONS_LOCATOR, warrantyStatus);
-        clickOn(SELECT_PROBLE_DROPDOWN_LOCATOR);
-        selectOptionFromList(SELECT_PROBLE_OPTIONS_LOCATOR, "Poor battery life");
-        enterText(REMARK_FIELD_LOCATOR, "Testing");
-        enterText(FNAME_FIELD_LOCATOR, TestUtils.getFakeData().get("fName"));
-        enterText(LNAME_FIELD_LOCATOR, TestUtils.getFakeData().get("lName"));
-        enterText(CONTACT_NUMBER_FIELD_LOCATOR, TestUtils.getFakeData().get("number"));
-        enterText(EMAIL_FIELD_LOCATOR, TestUtils.getFakeData().get("email"));
-        enterText(FLAT_NUM_FIELD_LOCATOR, TestUtils.getFakeData().get("flatNumber"));
-        enterText(APPT_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("apptName"));
-        enterText(LANDMARK_FIELD_LOCATOR, TestUtils.getFakeData().get("landmark"));
-        enterText(STREET_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("streetName"));
-        enterText(AREA_FIELD_LOCATOR, TestUtils.getFakeData().get("area"));
-        clickOn(STATE_FIELD_LOCATOR);
-        selectOptionFromList(STATE_OPTIONS_LOCATOR, "Maharashtra");
-        enterText(PINCODE_FIELD_LOCATOR, TestUtils.getFakeData().get("pincode"));
-        clickOn(SUBMIT_BUTTON_LOCATOR);
-        return (getElementText(JOB_CREATED_TOAST_MASSAGE_LOCATOR).split(" "))[0];
+        browserUtils.clickOn(OEM_DROPDOWN_LOCATOR);
+        browserUtils.selectOptionFromList(OEM_OPTIONS_LOCATOR, oem);
+        browserUtils.clickOn(PRODUCT_NAME_DROPDOWN_LOCATOR);
+        browserUtils.selectOptionFromList(PRODUCT_NAME_OPTIONS_LOCATOR, productName);
+        browserUtils.clickOn(MODEL_NAME_DROPDOWN_LOCATOR);
+        browserUtils.selectOptionFromList(MODEL_NAME_OPTION_LOCATOR, modelName);
+        browserUtils.enterText(IMEI_FIELD_LOCATOR, TestUtils.getFakeData().get("imei"));
+        browserUtils.enterText(DATE_FIELD_LOCATOR, date);
+        browserUtils.clickOn(WARRANTY_STATUS_DROPDOWN_LOCATOR);
+        browserUtils.selectOptionFromList(WARRANTY_STATUS_OPTIONS_LOCATOR, warrantyStatus);
+        browserUtils.clickOn(SELECT_PROBLE_DROPDOWN_LOCATOR);
+        browserUtils.selectOptionFromList(SELECT_PROBLE_OPTIONS_LOCATOR, "Poor battery life");
+        browserUtils.enterText(REMARK_FIELD_LOCATOR, "Testing");
+        browserUtils.enterText(FNAME_FIELD_LOCATOR, TestUtils.getFakeData().get("fName"));
+        browserUtils.enterText(LNAME_FIELD_LOCATOR, TestUtils.getFakeData().get("lName"));
+        browserUtils.enterText(CONTACT_NUMBER_FIELD_LOCATOR, TestUtils.getFakeData().get("number"));
+        browserUtils.enterText(EMAIL_FIELD_LOCATOR, TestUtils.getFakeData().get("email"));
+        browserUtils.enterText(FLAT_NUM_FIELD_LOCATOR, TestUtils.getFakeData().get("flatNumber"));
+        browserUtils.enterText(APPT_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("apptName"));
+        browserUtils.enterText(LANDMARK_FIELD_LOCATOR, TestUtils.getFakeData().get("landmark"));
+        browserUtils.enterText(STREET_NAME_FIELD_LOCATOR, TestUtils.getFakeData().get("streetName"));
+        browserUtils.enterText(AREA_FIELD_LOCATOR, TestUtils.getFakeData().get("area"));
+        browserUtils.clickOn(STATE_FIELD_LOCATOR);
+        browserUtils.selectOptionFromList(STATE_OPTIONS_LOCATOR, "Maharashtra");
+        browserUtils.enterText(PINCODE_FIELD_LOCATOR, TestUtils.getFakeData().get("pincode"));
+        browserUtils.clickOn(SUBMIT_BUTTON_LOCATOR);
+        return (browserUtils.getElementText(JOB_CREATED_TOAST_MASSAGE_LOCATOR).split(" "))[0];
     }
 
 }

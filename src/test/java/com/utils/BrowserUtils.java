@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class BrowserUtils {
+public class BrowserUtils {
 
     private WebDriver driver;
     private WebDriverWait wait;
