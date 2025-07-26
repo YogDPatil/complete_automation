@@ -105,6 +105,7 @@ public abstract class TestBase {
                 e.printStackTrace();
             }
             driver.quit();
+            driver = null;
         }
     }
 }
