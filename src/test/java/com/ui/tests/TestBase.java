@@ -59,53 +59,30 @@ public abstract class TestBase {
                 bstackOptions.put("accessKey", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
                 bstackOptions.put("sessionName", method.getName());
                 caps.setCapability("bstack:options", bstackOptions);
-                driver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
-            } else {
-                switch (browser.toLowerCase()) {
-                    case "chrome":
-                        WebDriverManager.chromedriver().setup();
-                        ChromeOptions opt = new ChromeOptions();
-                        if (headless) {
-                            opt.addArguments("--headless");
-                        }
-                        driver = new ChromeDriver(opt);
-                        break;
-                    case "firefox":
-                        WebDriverManager.firefoxdriver().setup();
-                        FirefoxOptions firefoxOpt = new FirefoxOptions();
-                        if (headless) firefoxOpt.addArguments("--headless");
-                        driver = new FirefoxDriver(firefoxOpt);
-                        break;
-                    case "safari":
-                        WebDriverManager.safaridriver().setup();
-                        driver = new SafariDriver();
-                        break;
-                    default:
-                        throw new Exception("Error: " + browser + " is not compatible");
-                }
-            }
+                RemoteWebDriver RemoteDriver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
+                DriverFactory.setRemoteWebDriver(RemoteDriver);
+            } else DriverFactory.setDriver(browser, headless);
 
         } catch (
 
                 Exception e) {
             e.printStackTrace();
         }
-        context.setAttribute("webDriver", driver);
-        driver.manage().window().maximize();
-        driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
-        loginPage = new LoginPage(driver);
+        context.setAttribute("webDriver", DriverFactory.getDriver());
+        DriverFactory.getDriver().manage().window().maximize();
+        DriverFactory.getDriver().get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
+        loginPage = new LoginPage(DriverFactory.getDriver());
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        if (driver != null) {
+        if (DriverFactory.getDriver() != null) {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            driver.quit();
-            driver = null;
+            DriverFactory.quitDriver();
         }
     }
 }
