@@ -68,9 +68,10 @@ public abstract class TestBase {
                 Exception e) {
             e.printStackTrace();
         }
-        context.setAttribute("webDriver", DriverFactory.getDriver());
-        DriverFactory.getDriver().manage().window().maximize();
-        DriverFactory.getDriver().get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
+        driver = DriverFactory.getDriver();
+        context.setAttribute("webDriver", driver);
+        driver.manage().window().maximize();
+        driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
         loginPage = new LoginPage(DriverFactory.getDriver());
     }
 

@@ -45,7 +45,15 @@ public class BrowserUtils {
     }
 
     public WebElement findWebElement(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        int count = 0;
+        while (count < 2) {
+            try {
+                return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            } catch (StaleElementReferenceException e) {
+                count++;
+            }
+        }
+        return null;
     }
 
     public List<WebElement> findWebElements(By locator) {
