@@ -59,8 +59,8 @@ public abstract class TestBase {
                 bstackOptions.put("accessKey", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
                 bstackOptions.put("sessionName", method.getName());
                 caps.setCapability("bstack:options", bstackOptions);
-                RemoteWebDriver RemoteDriver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
-                DriverFactory.setRemoteWebDriver(RemoteDriver);
+                RemoteWebDriver remoteDriver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
+                DriverFactory.setRemoteWebDriver(remoteDriver);
             } else DriverFactory.setDriver(browser, headless);
 
         } catch (

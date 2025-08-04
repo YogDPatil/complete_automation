@@ -20,13 +20,11 @@ public class BrowserUtils {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private FluentWait<WebDriver> fluentWait;
 
     public BrowserUtils(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.pollingEvery(Duration.ofMillis(500)).ignoring(StaleElementReferenceException.class);
-        fluentWait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(30)).pollingEvery(Duration.ofMillis(500));
     }
 
     public void enterText(By locator, String text) {
@@ -62,12 +60,6 @@ public class BrowserUtils {
 
     public void selectOptionFromList(By locator, String option) {
         List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-//        for (WebElement ele : elements) {
-//            if (ele.getText().equalsIgnoreCase(option)) {
-//                ele.click();
-//                break;
-//            }
-//        }
         elements.stream().filter(ele -> ele.getText().equalsIgnoreCase(option)).findFirst().ifPresent(ele -> ele.click());
     }
 
