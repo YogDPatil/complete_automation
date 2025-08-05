@@ -46,33 +46,15 @@ public abstract class TestBase {
         boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         boolean isRemote = Boolean.parseBoolean(System.getProperty("remote", "false"));
         try {
-            if (isRemote) {
-                MutableCapabilities caps = new MutableCapabilities();
-                caps.setCapability("browserName", browser);
-                caps.setCapability("browserVersion", browserVersion);
-
-                Map<String, Object> bstackOptions = new HashMap<>();
-                bstackOptions.put("os", os);
-                bstackOptions.put("osVersion", osVersion);
-                bstackOptions.put("browserVersion", browserVersion);
-                bstackOptions.put("userName", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_USERNAME));
-                bstackOptions.put("accessKey", TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BS_ACCESS_KEY));
-                bstackOptions.put("sessionName", method.getName());
-                caps.setCapability("bstack:options", bstackOptions);
-                RemoteWebDriver remoteDriver = new RemoteWebDriver(new URI("https://hub.browserstack.com/wd/hub").toURL(), caps);
-                DriverFactory.setRemoteWebDriver(remoteDriver);
-            } else DriverFactory.setDriver(browser, headless);
-
-        } catch (
-
-                Exception e) {
+            DriverFactory.setDriver(browser, headless, isRemote, browserVersion, environment, method);
+            driver = DriverFactory.getDriver();
+            context.setAttribute("webDriver", driver);
+            driver.manage().window().maximize();
+            driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
+            loginPage = new LoginPage(DriverFactory.getDriver());
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        driver = DriverFactory.getDriver();
-        context.setAttribute("webDriver", driver);
-        driver.manage().window().maximize();
-        driver.get(TestUtils.getValueFromPropertiesFile(environment, ConfigConst.BASE_URL));
-        loginPage = new LoginPage(DriverFactory.getDriver());
     }
 
     @AfterMethod(alwaysRun = true)
